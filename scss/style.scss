@@ -1,0 +1,19 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #fff;
+  color: #111;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 2rem;
+}
+
+p {
+  margin: 0 2rem;
+}

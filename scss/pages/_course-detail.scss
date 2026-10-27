@@ -1,0 +1,666 @@
+// =============================================================================
+// Course Detail page — Kajabi Encore landing page (Figma node 1280:357)
+// Compiles to the CSS pasted into: Page → Style Guide → Custom Code → CSS
+//
+// Kajabi renders every section as <div id="section-{id}"> and every block as
+// <div id="block-{sectionId}_{index}">. The IDs below match the master page;
+// a duplicated course page keeps the same IDs, so this file works unchanged.
+//
+// The block HTML carries NO inline styles and NO custom classes (Kajabi's
+// editor strips class attributes). Everything is targeted by block ID +
+// element structure. Only Font Awesome classes appear in the markup.
+//
+// Shared styles come from the project: colors (variables/colors), media
+// queries (mixins/_mq), type (mixins/_type), buttons, focus outlines and
+// cards. Only page-specific values are defined here.
+//
+// MOBILE FIRST: base rules are the small-screen layout; larger layouts are
+// layered on with mq() (min-width).
+// =============================================================================
+
+@use "sass:map";
+@use "sass:math";
+@use "sass:list";
+@use "../variables/colors" as *;
+@use "../mixins" as *;
+
+// -----------------------------------------------------------------------------
+// Page tokens (colors not yet in variables/colors)
+// -----------------------------------------------------------------------------
+$gray-700: #4E5566;   // secondary text
+$gray-600: #6E7485;   // meta values, captions
+$gray-500: #8C94A3;   // meta icons, notes
+$gray-100: #E9EAF0;   // borders / dividers
+$gray-bg:  #F5F7FA;   // avatar fallback
+$muted:    #637381;   // subtitles, review body
+$tab-idle: #4B5563;
+
+$orange:   #FF6636;
+$purple:   #564FFD;
+$green:    #23BD33;
+$star:     #FD8E1F;
+
+$shadow-card: 0 .38rem 1rem rgba(0, 0, 0, .06);
+$card-pad:    1.5rem;   // sidebar card inner padding (Figma)
+
+// Units: everything is rem (16px root) except media-query breakpoints,
+// percentages, and $hairline. Decimals are rounded to the hundredth.
+//
+// $hairline stays 1px on purpose: 1px = .0625rem, which rounds to .06rem
+// (0.96px). Browsers snap border widths down to whole device pixels, so on
+// 2x screens that renders as a half-pixel line instead of a 1px rule.
+$hairline: 1px;
+
+// --- Grid facts (measured from Encore's rendered page, not chosen) ----------
+$container-max: 83.75rem; // 1340px, Kajabi section .container max-width (from $tablet)
+$container-pad: 2.5rem;   // 40px, Kajabi section inline padding (from $tablet)
+$gutter:        1.25rem;   // Encore .row negative margin (15px) = half-gutter
+$grid-cols:     12;
+$main-cols:     8;        // main column span in the Figma (872 / 1296)
+$side-cols:     $grid-cols - $main-cols;
+
+// Breakpoints come from mixins/_mq:
+//   $tablet  (768px)  — Encore switches its .col-* grid on here
+//   $desktop (1024px) — sidebar leaves the flow and docks right
+
+$sidebar-top: 4.5rem;   // = Course Header section top padding (Kajabi setting)
+
+// Section IDs on the master page
+$sections: (
+  sidebar:     "1790360000001",
+  header:      "1790360000002",
+  trailer:     "1790360000003",
+  tabs:        "1790360000004",
+  description: "1790360000005",
+  learn:       "1790360000006",
+  audience:    "1790360000007",
+  curriculum:  "1790360000008",
+  instructor:  "1790360000009",
+  reviews:     "1790360000011",
+);
+
+// Every section except the sidebar = the main column
+$main-sections: map.remove($sections, sidebar);
+
+// -----------------------------------------------------------------------------
+// Helpers
+// -----------------------------------------------------------------------------
+@function sid($name) { @return map.get($sections, $name); }
+
+// Selector string for a block: bid(sidebar, 4) → "#block-1790360000001_4"
+@function bid($section, $index) { @return "#block-#{sid($section)}_#{$index}"; }
+
+// Comma-separated "#section-…" list for every main-column section
+@function main-section-selector() {
+  $list: ();
+  @each $name, $id in $main-sections {
+    $list: list.append($list, "#section-#{$id}", comma);
+  }
+  @return $list;
+}
+
+// Width of N grid tracks inside a container whose content box is $content.
+// Written as "* N / 12" so no rounded fraction creeps into the math.
+@function track($cols, $content) {
+  @return calc((#{$content} + #{2 * $gutter}) * #{$cols} / #{$grid-cols});
+}
+
+// Small text sizes that have no mixin in mixins/_type yet
+@mixin type($size, $line: null, $weight: null, $color: null) {
+  font-size: $size;
+  line-height: $line;
+  font-weight: $weight;
+  color: $color;
+}
+
+// Font Awesome <i>: color + size
+@mixin fa($color, $size: 1.25rem) {
+  color: $color;
+  font-size: $size;
+}
+
+// Reset a rich-text list to a plain stack
+@mixin plain-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// List item with a leading Font Awesome <i>: keeps wrapped text aligned
+// beside the icon instead of flowing underneath it
+@mixin icon-row($gap: .5rem) {
+  display: flex;
+  align-items: flex-start;
+  gap: $gap;
+
+  > i { flex: 0 0 auto; line-height: inherit; }
+}
+
+@mixin circle-img($size) {
+  width: $size !important;
+  height: $size;
+  border-radius: 50% !important;
+  object-fit: cover;
+}
+
+// Block sized by its content, not by Encore's column class
+@mixin col-auto  { flex: 0 0 auto; max-width: none; }
+// Block that takes whatever room is left in its row
+@mixin col-fill  { flex: 1 1 0; max-width: none; min-width: 0; }
+
+// Section headings (Description, What you'll learn, Curriculum, …) are <h2>
+// for document outline, styled with the project's `title` type.
+@mixin section-title {
+  @include title;
+  color: $primary-text-color;
+  margin: 0;
+}
+
+// Row of five FA stars
+%star-row i { color: $star; }
+
+// -----------------------------------------------------------------------------
+// Main column layout
+//
+// Encore sizes blocks with .col-N classes from $tablet up. Those spans assume
+// the sidebar is always beside them, which leaves an empty third of the page
+// until the sidebar docks. Instead, main-column blocks span the row, and the
+// ROW is narrowed to the main track only once the sidebar docks at $desktop.
+// -----------------------------------------------------------------------------
+// :where() keeps this at plain-ID specificity, so the per-block rules further
+// down (avatars, rating, stats, instructor photo) can override it.
+#{main-section-selector()} {
+  @include mq($tablet) {
+    // every main-column block spans the full row by default…
+    :where(.row > [class*="col-"]) { flex: 0 0 100%; max-width: 100%; }
+  }
+
+  @include mq($desktop) {
+    // …and the row itself narrows to the main track once the sidebar docks
+    .row { max-width: track($main-cols, 100%); }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Header: title, subtitle, creator, rating
+// -----------------------------------------------------------------------------
+#{bid(header, 0)} {
+  h1 {
+    @include headline;
+    color: $primary-text-color;/*edit*/
+    line-height: 1.1;/*edit*/
+    margin: 0 0 .75rem;
+  }
+
+  p {
+    @include type(1.13rem, 1.6, null, $muted);/*edit*/
+    margin: 0;
+
+    @include mq($tablet) { font-size: 1.5rem; }/*edit*/
+  }
+}
+
+//creator
+.byline {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    &__avatar {
+      border-radius: 50%;
+      height: 3rem;
+      width: 3rem;
+      overflow: hidden;
+    }
+    &__info {
+
+    }
+}
+
+// #{bid(header, 1)} {
+//   flex: 0 0 4.63rem;
+//   max-width: 4.63rem;
+
+//   img {
+//     @include circle-img(3.13rem);
+//     object-position: top;
+//     background: $gray-bg;
+//     aspect-ratio: 1 / 1;
+//   }
+// }
+
+// #{bid(header, 2)} {
+//   @include mq($tablet) { @include col-fill; }
+// }
+
+// #{bid(header, 2)} p {
+//   margin: 0;
+
+//   &:first-of-type { @include type(.88rem, 1.38rem, null, $gray-600); } /*edit*/
+//   &:last-of-type  { @include type(1rem, 1.38rem, 500, $primary-text-color); margin-top: .25rem; } /*edit*/
+// }
+
+#{bid(header, 4)} {
+  @include mq($tablet) { @include col-auto; }
+
+  p {
+    margin: 0;
+    line-height: 1.5rem;
+
+    [role="img"] {
+      @extend %star-row;
+      letter-spacing: .13rem; /*edit*/
+      i { font-size: 1.25rem; } /*edit*/
+    }
+
+    strong { @include type(1rem, null, 500, $primary-text-color); } /*edit*/
+    small  { @include type(.88rem, null, null, $gray-600); } /*edit*/
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Sidebar card (price, meta table, Buy Now, includes, share)
+//
+// Base: sits in the page flow as a card. The card chrome lives on .row so its
+// edges line up with the main column's blocks at every width.
+// From $desktop: docks into the right-hand grid track.
+// -----------------------------------------------------------------------------
+#section-#{sid(sidebar)} {
+  .row {
+    @include oc-card($isGrey: false, $padding: $card-pad, $padding-tablet: $card-pad);
+    box-shadow: $shadow-card;
+  }
+
+  [class*="col-"] { padding-top: 0; padding-bottom: 0; }
+
+  @include mq($desktop) {
+    $content: "min(100%, #{$container-max}) - #{2 * $container-pad}";
+
+    position: absolute;
+    top: $sidebar-top;
+    z-index: 5;
+    // right edge = container's content edge
+    right: calc((100% - min(100%, #{$container-max})) / 2 + #{$container-pad});
+    // width = the side track, less the gutter on each side
+    width: calc(#{track($side-cols, $content)} - #{2 * $gutter});
+
+    // Kajabi emits `#section-{id} .sizer / .container` padding after this
+    // stylesheet, so one extra class is needed to win the cascade
+    .section .sizer   { padding-block: 0; }
+    .sizer .container { padding-inline: 0; max-width: none; }
+    .container .row   { margin-inline: 0; }
+  }
+}
+
+// Containing block for the docked sidebar. Visual order always follows DOM
+// order (no CSS `order`) so reading and focus order match the screen
+// (WCAG 1.3.2 / 2.4.3). To move the sidebar on small screens, reorder the
+// sections in Kajabi.
+@include mq($desktop) {
+  main { position: relative; }
+}
+
+// Dividers between sidebar groups
+#{bid(sidebar, 1)}, #{bid(sidebar, 2)}, #{bid(sidebar, 4)}, #{bid(sidebar, 5)} {
+  border-top: $hairline solid $gray-100;
+  padding-top: $card-pad !important;
+  margin-top: math.div($card-pad, 2);
+}
+
+// Price
+#{bid(sidebar, 0)} p {
+  @include type(1.5rem, 2rem, null, $primary-text-color); /*edit*/
+  margin: 0;
+}
+
+// Meta table: Duration / Level / Enrolled / Language
+#{bid(sidebar, 1)} {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    @include type(.88rem, 1.38rem);
+  }
+
+  td {
+    border: 0 !important;
+    padding: .5rem 0;
+
+    &:first-child { color: $primary-text-color; }
+    &:last-child  { color: $gray-600; text-align: right; }
+  }
+
+  i {
+    @include fa($gray-500);
+    margin-right: .5rem;
+  }
+}
+
+// Buy Now (Kajabi CTA block). `.btn--solid` adds one class so this beats
+// Kajabi's own `#block-… .btn` rule, which prints after the custom CSS.
+#{bid(sidebar, 2)} .btn.btn--solid {
+  @include button;
+}
+
+// Guarantee note
+#{bid(sidebar, 3)} p {
+  @include type(.88rem, 1.38rem, null, $gray-500); /*edit*/
+  margin: 0;
+
+  strong { @include type(inherit, null, 500, $gray-600); } /*edit*/
+}
+
+// "This course includes" + "Share this course" labels
+#{bid(sidebar, 4)} > .block > p:first-of-type,
+#{bid(sidebar, 5)} p {
+  @include type(1rem, 1.38rem, 500, $primary-text-color); /*edit*/
+  margin: 0;
+}
+
+#{bid(sidebar, 4)} {
+  > .block > p:first-of-type { margin-bottom: 1rem; }
+
+  ul {
+    @include plain-list;
+    @include type(.88rem, 1.38rem, null, $gray-700); /*edit*/
+  }
+
+  li {
+    @include icon-row(.75rem);
+    margin-bottom: .75rem;
+    line-height: 1.5rem; /*edit*/
+  }
+
+  i { @include fa($orange); }
+}
+
+// Copy Link button (code block)
+#{bid(sidebar, 6)} button {
+  @include button($primary: false);
+  width: 100%;
+  cursor: pointer;
+}
+
+// -----------------------------------------------------------------------------
+// Tabs (first link = active)
+// -----------------------------------------------------------------------------
+#{bid(tabs, 0)} {
+  p {
+    display: flex;
+    margin: 0;
+    @include type(.88rem, 1.38rem); /*edit*/
+    border-bottom: $hairline solid $gray-100;
+
+    @include mq($tablet) { font-size: 1rem; } /*edit*/
+  }
+
+  a {
+    @include outline;
+    flex: 1 1 0;
+    padding-bottom: 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    @include type(inherit, null, 500, $tab-idle); /*edit*/
+
+    &:first-child {
+      font-weight: 700;
+      color: $primary-text-color;
+      border-bottom: .13rem solid $primary-text-color;
+    }
+
+    &:hover { color: $primary-text-color !important; }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Description
+// -----------------------------------------------------------------------------
+#{bid(description, 0)} h2 {
+  @include section-title;
+  margin-bottom: 1.25rem;
+}
+
+// -----------------------------------------------------------------------------
+// What you will learn (checklist: 1 column, 2 from $tablet)
+// -----------------------------------------------------------------------------
+#{bid(learn, 0)} {
+  h2 {
+    @include section-title;
+    margin-bottom: 1.25rem;
+  }
+
+  ul {
+    @include plain-list;
+    column-gap: 1.5rem;
+
+    @include mq($tablet) { columns: 2; }
+  }
+
+  li {
+    @include icon-row;
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+  }
+
+  i {
+    @include fa($green, 1.38rem);
+    margin-top: .25rem;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Who this course is for
+// -----------------------------------------------------------------------------
+#{bid(audience, 0)} {
+  h2 {
+    @include section-title;
+    margin-bottom: 1.25rem;
+  }
+
+  ul { @include plain-list; }
+
+  li {
+    @include icon-row;
+    align-items: center;
+    margin-bottom: .75rem;
+  }
+
+  i { @include fa($primary-text-color); }
+}
+
+// -----------------------------------------------------------------------------
+// Curriculum (heading + stats + live course_outline block)
+// -----------------------------------------------------------------------------
+#{bid(curriculum, 0)} {
+  @include mq($tablet) { @include col-fill; }
+
+  h2 { @include section-title; }
+}
+
+#{bid(curriculum, 1)} {
+  @include mq($tablet) { @include col-auto; }
+
+  p {
+    margin: 0;
+    @include type(.88rem, 1.38rem, null, $gray-700); /*edit*/
+
+    i {
+      font-size: 1.13rem;
+      margin-right: .38rem;
+
+      &:nth-of-type(1) { color: $orange; }
+      &:nth-of-type(2) { color: $purple; margin-left: 1rem; }
+    }
+  }
+}
+
+#{bid(curriculum, 2)} {
+  > .block {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .course-outline {
+    &__image,
+    &__title { display: none !important; }
+
+    &__toplevelcategory {
+      border: $hairline solid $gray-100 !important;
+      border-radius: 0 !important;
+
+      &[open] > summary > .course-outline__heading { border-width: 0 !important; }
+    }
+
+    &__heading { padding: 1.25rem !important; }
+
+    &__category__title {
+      font-size: 1.13rem !important;
+      font-weight: 600 !important;
+      color: $primary-text-color !important;
+
+      @include mq($tablet) { font-size: 1.25rem !important; } /*edit*/
+    }
+
+    &__category__count { @include type(.88rem, null, null, $muted); } /*edit*/
+    &__post            { @include type(.88rem, 1.38rem, null, $primary-text-color); } /*edit*/
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Instructor card (photo block + text block drawn as one bordered card)
+// Base: stacked. From $tablet: photo and text side by side.
+// -----------------------------------------------------------------------------
+#{bid(instructor, 0)} h2 { @include section-title; }
+
+#section-#{sid(instructor)} .row { align-items: stretch !important; }
+
+#{bid(instructor, 1)},
+#{bid(instructor, 2)} {
+  > .block {
+    height: 100%;
+    border: $hairline solid $gray-100 !important;
+    border-radius: 0 !important;
+    background: #fff;
+  }
+}
+
+#{bid(instructor, 1)} {
+  > .block {
+    border-bottom: 0 !important;
+    padding: 1.5rem 1.5rem 0 !important;
+  }
+
+  img {
+    @include circle-img(8.5rem);
+    object-position: top;
+    background: $gray-bg;
+    aspect-ratio: 1 / 1;
+  }
+
+  @include mq($tablet) {
+    @include col-auto;
+    padding-right: 0;
+
+    > .block {
+      border-bottom: $hairline solid $gray-100 !important;
+      border-right: 0 !important;
+      padding: 2rem 0 2rem 2rem !important;
+    }
+  }
+}
+
+#{bid(instructor, 2)} {
+  > .block {
+    border-top: 0 !important;
+    padding: 1rem 1.5rem 1.5rem !important;
+  }
+
+  @include mq($tablet) {
+    @include col-fill;
+    padding-left: 0;
+
+    > .block {
+      border-top: $hairline solid $gray-100 !important;
+      border-left: 0 !important;
+      padding: 2rem 2rem 2rem 1.5rem !important;
+    }
+  }
+
+  p {
+    margin: 0;
+    @include type(.88rem, 1.38rem, null, $muted);
+
+    // 1 name · 2 role · 3 stats · 4 bio
+    &:nth-of-type(1) { @include type(1.25rem, 1.63rem, 600, $primary-text-color); } /*edit*/
+    &:nth-of-type(2) { margin: .38rem 0 1rem; }
+    &:nth-of-type(3) { font-weight: 600; margin-bottom: 1rem; }
+  }
+
+  strong { color: $primary-text-color; }
+
+  i {
+    font-size: 1rem;
+    margin-right: .25rem;
+
+    &:nth-of-type(1) { color: $star; }
+    &:nth-of-type(2) { color: $purple; margin-left: 1rem; }
+    &:nth-of-type(3) { color: $orange; margin-left: 1rem; }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Student feedback
+// -----------------------------------------------------------------------------
+// Avatar column
+#{bid(reviews, 0)} {
+  flex: 0 0 4.5rem;
+  max-width: 4.5rem;
+
+  .image {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50% !important;
+    overflow: hidden;
+    background: $gray-100;
+  }
+
+  img {
+    @include circle-img(2.5rem);
+    &[src*="placeholder"] { opacity: 0; }   // hide Kajabi's empty-image placeholder
+  }
+}
+
+// Review body (Kajabi injects a <style> before the first <p>, so use
+// nth-of-type, not nth-child): 1 name + time · 2 stars · 3+ review text
+#{bid(reviews, 1)} {
+  @include mq($tablet) { @include col-fill; }
+
+  p {
+    color: $muted;
+
+    &:nth-of-type(1) { margin: 0; line-height: 1.38rem; }
+    &:nth-of-type(2) {
+      @extend %star-row;
+      margin: .5rem 0 .75rem;
+      line-height: 1rem;
+      letter-spacing: .06rem;
+      i { font-size: .88rem; }
+    }
+  }
+
+  strong { @include type(1.25rem, null, 600, $primary-text-color); } /*edit*/
+  small  { @include type(.75rem, null, null, $gray-600); } /*edit*/
+}
+
+// Divider above each review (reviews are added as copies of this section,
+// so every review gets a rule above it)
+#{bid(reviews, 1)} {
+  border-top: $hairline solid $gray-100;
+  padding-top: 1.5rem;
+}
+
+#{bid(reviews, 0)} {
+  @include mq($tablet) {
+    border-top: $hairline solid $gray-100;
+    padding-top: 1.5rem;
+  }
+}

@@ -1,0 +1,23 @@
+@use "kjabi-overwrite" as *;
+@use "variables/colors" as *;
+@use "mixins" as *;
+@use "components" as *;
+
+#block-1785344766828 a {
+    @include button($primary: false);
+}
+h1 {
+    @include headline;
+}
+h2 {
+    @include subheadline;
+}
+h3 {
+    @include title;
+}
+.eyebrow {
+    @include eyebrow;
+}
+.oc-card {
+    @include oc-card;
+}

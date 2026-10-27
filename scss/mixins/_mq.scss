@@ -1,0 +1,14 @@
+$tablet: 768px;
+$desktop: 1024px;
+$desktop-lg: 1280px;
+
+@mixin mq($screen-width, $max-width: false) {
+    @media screen and (min-width: $screen-width) {
+        @content;
+    }
+    @if $max-width {
+        @media screen and (max-width: $screen-width) {
+            @content;
+        }
+    }
+}

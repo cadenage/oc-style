@@ -1,0 +1,20 @@
+@use "variables/colors" as *;
+
+:root {
+  --header-border-color: #ececec;
+  /*nav*/
+  --nav-link-color: #393939;
+
+  /*button colors*/
+  --button-primary-bg: #282c35;
+  --button-secondary-bg: #f3f9fa;
+  --button-secondary-border-color: #d4d7e3;
+  --button-border-radius: .75rem;
+
+  /*footer*/
+  --footer-border-color: rgba(255, 255, 255, 0.16);
+}
+
+
+
+

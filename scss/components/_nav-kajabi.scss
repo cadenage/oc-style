@@ -1,0 +1,88 @@
+@use '../mixins/mq' as *;
+
+.header a, .header a.link-list__link {
+  color: var(--nav-link-color);
+  font-size: 1rem;
+}
+.header a:hover, .header a.link-list__link:hover,
+.header a:focus, .header a.link-list__link:focus {
+  text-decoration: underline;
+}
+@include mq ($tablet) {
+    .header__container {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto; /* logo | flexible spacer | menu1 | user */
+    grid-template-rows: auto auto;
+    align-items: center;
+    row-gap: 2.5rem;
+  }
+  .header__content--desktop .header__block {
+    margin: 0;
+  }
+  .link-list {
+    gap: 1.5rem;
+  }
+  .header__content--desktop .link-list .link-list__link {
+    margin: 0;
+  }
+  
+  /* logo: own column, spans both rows -> vertically centered automatically */
+  #block-1555988494486 {
+    grid-column: 1;
+  }
+
+  /* OC Automation / Contact Us -> top row, flush right */
+  #block-1555988491313 {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  /* user avatar/dropdown -> top row, flush right, right after menu1 */
+  #block-1555988487706 {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .header__content--desktop .header__block--user {
+    margin-left: 1.5rem;
+  }
+
+  /* main nav (About, Coaching, Events, Sponsor, Work With Dana) -> second row, flush right, more prominent */
+  #block-1602256221872 {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+  #block-1602256221872 > .justify-content-right {
+      -webkit-box-pack: start;
+      -ms-flex-pack: start;
+      justify-content: start;
+  }
+
+  /*cta*/
+  #block-1785178509845 {
+    grid-column: 3 / 5;
+    grid-row: 2;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /*border*/
+  .header__block--menu:not(.stretch) {
+    position: relative;
+    align-self: stretch;     /* box now fills the full row height, matching the button's row */
+    display: flex;
+    align-items: center;     /* re-centers the nav links inside that taller box */
+  }
+
+  .header__block--menu:not(.stretch)::before {
+    content: "";
+    position: absolute;
+    top: -1.25rem;            /* half of the 2.5rem row-gap */
+    left: 50%;
+    width: 100vw;
+    margin-left: -50vw;
+    border-top: 1px solid var(--header-border-color);
+    z-index: 1;
+  }
+}

@@ -1,0 +1,29 @@
+@use "../variables/colors" as *;
+
+.slick-prev {
+  &:before {
+    content: "\f060";
+    font-family: "Font Awesome 7 Sharp";
+    font-weight: 300;
+  }
+}
+.slick-next {
+  &:before {
+    content: "\f061";
+    font-family: "Font Awesome 7 Sharp";
+    font-weight: 300;
+  }
+}
+#section-1787929515571 {
+  .slick-dots {
+    li {
+      &.slick-active {
+        button {
+          &:before {
+            color: $heading-accent-color !important;
+          }
+        }
+      }
+    }
+  }
+}

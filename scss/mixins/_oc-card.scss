@@ -1,0 +1,21 @@
+@use "../variables/colors" as *;
+@use "mq" as *;
+
+@mixin oc-card(
+    $isGrey: true,
+    $padding: 1.5rem 1rem,
+    $padding-tablet: 2rem 1.5rem
+    ) {
+    border: 1px solid $card-border-color;
+    border-radius: .75rem;
+    padding: $padding;
+    @include mq($tablet) {
+        padding: $padding-tablet;
+    }
+    @if $isGrey {
+        background-color: $card-bg;
+    }
+    @else {
+        background-color: #ffffff;
+    }
+}

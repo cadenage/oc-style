@@ -1,0 +1,278 @@
+:root {
+  --header-border-color: #ececec;
+  /*nav*/
+  --nav-link-color: #393939;
+  /*button colors*/
+  --button-primary-bg: #282c35;
+  --button-secondary-bg: #f3f9fa;
+  --button-secondary-border-color: #d4d7e3;
+  --button-border-radius: .75rem;
+  /*footer*/
+  --footer-border-color: rgba(255, 255, 255, 0.16);
+}
+
+.header a, .header a.link-list__link {
+  color: var(--nav-link-color);
+  font-size: 1rem;
+}
+
+.header a:hover, .header a.link-list__link:hover,
+.header a:focus, .header a.link-list__link:focus {
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 768px) {
+  .header__container {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto; /* logo | flexible spacer | menu1 | user */
+    grid-template-rows: auto auto;
+    align-items: center;
+    row-gap: 2.5rem;
+  }
+  .header__content--desktop .header__block {
+    margin: 0;
+  }
+  .link-list {
+    gap: 1.5rem;
+  }
+  .header__content--desktop .link-list .link-list__link {
+    margin: 0;
+  }
+  /* logo: own column, spans both rows -> vertically centered automatically */
+  #block-1555988494486 {
+    grid-column: 1;
+  }
+  /* OC Automation / Contact Us -> top row, flush right */
+  #block-1555988491313 {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+  /* user avatar/dropdown -> top row, flush right, right after menu1 */
+  #block-1555988487706 {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .header__content--desktop .header__block--user {
+    margin-left: 1.5rem;
+  }
+  /* main nav (About, Coaching, Events, Sponsor, Work With Dana) -> second row, flush right, more prominent */
+  #block-1602256221872 {
+    grid-column: 1/3;
+    grid-row: 2;
+  }
+  #block-1602256221872 > .justify-content-right {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: start;
+  }
+  /*cta*/
+  #block-1785178509845 {
+    grid-column: 3/5;
+    grid-row: 2;
+    display: flex;
+    justify-content: flex-end;
+  }
+  /*border*/
+  .header__block--menu:not(.stretch) {
+    position: relative;
+    align-self: stretch; /* box now fills the full row height, matching the button's row */
+    display: flex;
+    align-items: center; /* re-centers the nav links inside that taller box */
+  }
+  .header__block--menu:not(.stretch)::before {
+    content: "";
+    position: absolute;
+    top: -1.25rem; /* half of the 2.5rem row-gap */
+    left: 50%;
+    width: 100vw;
+    margin-left: -50vw;
+    border-top: 1px solid var(--header-border-color);
+    z-index: 1;
+  }
+}
+.footer__content {
+  padding: 1.5rem;
+}
+
+.footer__container {
+  align-items: start;
+  border: 1px solid var(--footer-border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+.footer__container [class*=col-] {
+  padding: 0;
+}
+.footer__container .block {
+  overflow: visible;
+}
+
+@media screen and (min-width: 768px) {
+  .footer__content {
+    padding: 6.25rem 0;
+  }
+  .footer__container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, auto);
+    gap: 2rem 2.5rem;
+    padding: 2.5rem 3.5rem;
+    align-items: stretch;
+  }
+  .footer__container [class*=col-]:not(#block-1785344766828) {
+    padding: 0 2.5rem 0 0;
+    border-right: 1px solid var(--footer-border-color);
+  }
+  .footer__block:first-of-type {
+    grid-column: 1;
+    grid-row: 1/span 3;
+  }
+  #block-1602193175296 {
+    grid-column: 2;
+    grid-row: 1/span 3;
+  }
+  #block-1785344682627 {
+    grid-column: 3;
+    grid-row: 1/span 3;
+  }
+  #block-1785344766828 {
+    grid-column: 4;
+    grid-row: 1;
+  }
+  #block-1785344380443 {
+    grid-column: 4;
+    grid-row: 2;
+  }
+  #block-1555988525205 {
+    grid-column: 4;
+    grid-row: 3;
+  }
+}
+.slick-prev:before {
+  content: "\f060";
+  font-family: "Font Awesome 7 Sharp";
+  font-weight: 300;
+}
+
+.slick-next:before {
+  content: "\f061";
+  font-family: "Font Awesome 7 Sharp";
+  font-weight: 300;
+}
+
+#section-1787929515571 .slick-dots li.slick-active button:before {
+  color: #036F54 !important;
+}
+
+#block-1785344766828 a:focus {
+  outline: none;
+}
+#block-1785344766828 a:focus-visible {
+  outline: 3px solid #a5a5a5;
+  outline-offset: 3px;
+}
+@media (forced-colors: active) {
+  #block-1785344766828 a:focus-visible {
+    outline: 3px solid CanvasText;
+  }
+}
+#block-1785344766828 a {
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+@media screen and (min-width: 1024px) {
+  #block-1785344766828 a {
+    font-size: 1rem;
+  }
+}
+#block-1785344766828 a {
+  background-color: #f3f9fa;
+  color: #526066;
+  border: 1px solid #d4d7e3;
+  padding: 0.5rem 0.75rem;
+}
+#block-1785344766828 a:hover, #block-1785344766828 a:focus {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 3.75rem;
+  }
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+@media screen and (min-width: 768px) {
+  h2 {
+    font-size: 3.125rem;
+  }
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+@media screen and (min-width: 768px) {
+  h3 {
+    font-size: 2rem;
+  }
+}
+
+.eyebrow {
+  color: #036F54 !important;
+  font-family: "Roboto Slab", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.09rem;
+  padding-bottom: 0.5rem;
+  position: relative;
+}
+@media screen and (min-width: 768px) {
+  .eyebrow {
+    font-size: 1.125rem;
+  }
+}
+.eyebrow:after {
+  content: "";
+  background-color: #ffc619;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4rem;
+  height: 3px;
+}
+
+.oc-card {
+  border: 1px solid #dce2ee;
+  border-radius: 0.75rem;
+  padding: 1.5rem 1rem;
+}
+@media screen and (min-width: 768px) {
+  .oc-card {
+    padding: 2rem 1.5rem;
+  }
+}
+.oc-card {
+  background-color: #f5f7fe;
+}
+
+/*# sourceMappingURL=kakabi.css.map */

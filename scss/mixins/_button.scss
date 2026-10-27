@@ -1,0 +1,37 @@
+@use "mq" as *;
+@use "outline" as *;
+@use "../variables/colors" as *;
+
+@mixin button($primary: true) {
+    @include outline;
+    border-radius: .75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .875rem;
+    font-weight: 600;
+    text-decoration: none;
+    @include mq($desktop) {
+        font-size: 1rem;
+    }
+    @if $primary {
+        background-color: $button-primary-bg;
+        color: $button-primary-text-color;
+        padding: 0.625rem 1rem;
+        &:hover,
+        &:focus {
+            background-color: $button-primary-hover-bg; 
+        }
+    }
+    @else {
+        background-color: $button-secondary-bg;
+        color: $button-secondary-text-color;
+        border: 1px solid $button-secondary-border-color;
+        padding: 0.5rem 0.75rem;
+        &:hover,
+        &:focus {
+            background-color: $button-secondary-hover-bg; 
+            border-color: $button-secondary-hover-border-color;
+        }
+    }
+}
