@@ -1,11 +1,12 @@
 @use '../mixins/mq' as *;
 
-.login-hover,
-.nav-cart-button:hover {
-    border-radius: 50%;
-    padding: .5rem;
-    height: 2.25rem;
-}
-.nav-cart-icon:hover {
-    transform: none;
+.header {
+    .login-hover {
+        border-radius: 50%;
+        padding: .5rem;
+        height: 2.25rem;
+    }
+    // .nav-cart-icon:hover {
+    //     transform: none;
+    // }
 }

@@ -18,3 +18,10 @@ h3 {
 .oc-card {
     @include oc-card;
 }
+//butons
+.primary-button {
+    @include button;
+}
+.secondary-button {
+    @include button($primary: false);
+}
