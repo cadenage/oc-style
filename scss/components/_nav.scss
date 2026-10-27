@@ -1,11 +1,31 @@
+@use '../variables/colors' as *;
 @use '../mixins/mq' as *;
+@use '../mixins/outline' as *;
 
-.login-hover,
-.nav-cart-button:hover {
-    border-radius: 50%;
-    padding: .5rem;
-    height: 2.25rem;
-}
-.nav-cart-icon:hover {
-    transform: none;
+.header {
+    .mega-menu-link {
+        @include outline;
+        display: inline-block;
+        position: relative;
+        &:hover,
+        &:focus {
+            &:after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background-color: $button-primary-bg;
+            }
+        }
+    }
+    .login-hover {
+        border-radius: 50%;
+        padding: .5rem;
+        height: 2.25rem;
+    }
+    // .nav-cart-icon:hover {
+    //     transform: none;
+    // }
 }
