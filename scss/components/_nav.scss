@@ -31,9 +31,10 @@
     }
     .nav-cart-button,
     .login-hover {
+        @include outline;
         @include icon-button-shape;
     }
-    .nav-cart-icon:hover {
+    .nav-cart-button:hover {
         background-color:#f9fafbff;
         transform: none;
     }
