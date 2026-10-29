@@ -3,6 +3,7 @@
 @use "../mixins/type" as *;
 
 .title-text {
+    color: $primary-text-color;
     &__title {
         text-align: center;
         margin-bottom: 3rem;
