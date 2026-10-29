@@ -59,7 +59,7 @@
     line-height: 1.5rem;
     @if $responsive {
         @include mq($desktop) {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
         }
     }
 }

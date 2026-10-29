@@ -13,20 +13,36 @@
             @include subheadline;
         }
     }
+    &__text {
+        p {
+            @include body;
+        }
+    }
 }
 .mission-quote {
-    display:flex;
-    gap: 1.5rem;
-    justify-content: space-between;
+    padding:1.5rem 1rem;
     text-align: center;
     @include mq($tablet) {
-        gap: 3rem;
+        padding: 2.5rem 0;
+    }
+    &__container {
+       display:inline-flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin: 0 auto;
+        text-align: center;
+        @include mq($tablet) {
+            gap: 2.5rem;
+        }
     }
     i {
         color: $eyebrow-border-color;
         font-size: 1rem;
         @include mq($tablet) {
             font-size: 2rem;
+        }
+        &:last-of-type {
+            align-self: end;
         }
     }
     h3 {
