@@ -7,12 +7,70 @@
         outline: none;
     }
     &:focus-visible {
-        outline: 3px solid $color;
-        outline-offset: 3px;
+        outline: .13rem solid $color;
+        outline-offset: .13rem;
     }
     @media (forced-colors: active) {
         &:focus-visible {
-            outline: 3px solid CanvasText;
+            outline: .13rem solid CanvasText;
         }
     }
 }
+
+// Tokens: replace with OC brand values
+// $icon-color: #444746;
+// $delete-color: #b3261e;
+// $focus-ring: #0b57d0;
+
+// .btn-icon {
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   inline-size: 2.5rem;   // 40px. Above the 24px WCAG 2.2 AA minimum target
+//   block-size: 2.5rem;
+//   padding: 0;
+//   border: 0;
+//   border-radius: 50%;
+//   background-color: transparent;
+//   color: $icon-color;
+//   cursor: pointer;
+//   transition: background-color 0.15s ease, color 0.15s ease;
+
+//   &__glyph {
+//     inline-size: 1.25rem;
+//     block-size: 1.25rem;
+//     fill: currentColor;
+//   }
+
+//   &:hover {
+//     background-color: rgba($icon-color, 0.08);
+//   }
+
+//   // Keyboard focus only, so mouse clicks don't leave a ring
+//   &:focus-visible {
+//     outline: 0.13rem solid $focus-ring;
+//     outline-offset: 0.13rem;
+//     background-color: rgba($icon-color, 0.12);
+//   }
+
+//   &:active {
+//     background-color: rgba($icon-color, 0.16);
+//   }
+
+//   @media (prefers-reduced-motion: reduce) {
+//     transition: none;
+//   }
+// }
+
+// // Delete variant: the icon turns red on hover and focus to signal a destructive action
+// .btn-icon--delete {
+//   &:hover,
+//   &:focus-visible {
+//     color: $delete-color;
+//     background-color: rgba($delete-color, 0.08);
+//   }
+
+//   &:active {
+//     background-color: rgba($delete-color, 0.14);
+//   }
+// }

@@ -1,0 +1,36 @@
+@use "../variables/colors" as *;
+@use "../mixins/mq" as *;
+@use "../mixins/type" as *;
+
+.title-text {
+    &__title {
+        text-align: center;
+        margin-bottom: 3rem;
+        @include mq($tablet) {
+            margin-bottom: 4.5rem;
+        }
+        h2 {
+            @include subheadline;
+        }
+    }
+}
+.mission-quote {
+    display:flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+    text-align: center;
+    @include mq($tablet) {
+        gap: 3rem;
+    }
+    i {
+        color: $eyebrow-border-color;
+        font-size: 1rem;
+        @include mq($tablet) {
+            font-size: 2rem;
+        }
+    }
+    h3 {
+        flex: 1;
+        @include title; 
+    }
+}

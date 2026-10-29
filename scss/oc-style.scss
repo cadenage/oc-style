@@ -2,33 +2,3 @@
 @use "variables/colors" as *;
 @use "mixins" as *;
 @use "components" as *;
-
-a,
-button,
-input,
-select,
-textarea {
-    @include outline;
-}
-h1 {
-    @include headline;
-}
-h2 {
-    @include subheadline;
-}
-h3 {
-    @include title;
-}
-.eyebrow {
-    @include eyebrow;
-}
-.oc-card {
-    @include oc-card;
-}
-//butons
-.primary-button {
-    @include button;
-}
-.secondary-button {
-    @include button($primary: false);
-}
