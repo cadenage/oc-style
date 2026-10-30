@@ -42,8 +42,14 @@ h3 {
 .primary-button {
     @include button;
 }
+.primary-button__small {
+    @include button($is-responsive: false);
+}
 .secondary-button {
     @include button($primary: false);
+}
+.secondary-button__small {
+    @include button($primary: false, $is-responsive: false);
 }
 
 
