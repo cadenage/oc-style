@@ -1,3 +1,5 @@
+@use "../variables/colors" as *;
+@use "../mixins/type" as *;
 @use '../mixins/mq' as *;
 
 .footer-container {
