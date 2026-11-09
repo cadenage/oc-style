@@ -1,1 +1,18 @@
 @use '../mixins/mq' as *;
+
+.footer-container {
+  a {
+    color: #fff;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+  h2 {
+    @include body(false);
+    color: #fff;
+    font-weight:600;
+    margin-bottom: 1.5rem;
+  }
+}

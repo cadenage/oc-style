@@ -4,27 +4,19 @@
 @use "../mixins/mq" as *;
 
 .footer-social {
-    h2 {
-        @include body;
-        color: #fff;
-        font-weight:600;
-    }
+    // h2 {
+    //     @include body(false);
+    //     color: #fff;
+    //     font-weight:600;
+    //     margin-bottom: 1.5rem;
+    // }
     &__list {
         @include list-reset;
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        gap: 1.5rem;
     }
     &__icon {
-        color: #fff;
         font-size: 1rem;
-        text-decoration: none;
-        @include mq($tablet) {
-            font-size: 1.5rem;
-        }
-        &:hover,
-        &:focus {
-            color: $button-secondary-hover-bg;
-        }
     }
 }
