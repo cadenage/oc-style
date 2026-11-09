@@ -1,0 +1,58 @@
+@use '../mixins/mq' as *;
+
+.footer__content {
+  padding: 1.5rem;
+}
+.footer__container {
+  align-items: start;
+  border: 1px solid var(--footer-border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  [class*=col-] {
+    padding:0;
+  }
+  .block {
+    overflow:visible;
+  }
+}
+@include mq ($tablet) {
+    .footer__content {
+    padding: 6.25rem 0;
+  }
+  .footer__container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, auto);
+    gap: 2rem 2.5rem;
+    padding: 2.5rem 3.5rem;
+    align-items: stretch;
+  }
+  .footer__container [class*=col-]:not(#block-1785344766828) {
+    padding: 0 2.5rem 0 0;
+    border-right: 1px solid var(--footer-border-color);
+  }
+  .footer__block:first-of-type {
+    grid-column: 1;
+    grid-row: 1 / span 3; 
+  }
+  #block-1602193175296 {
+    grid-column: 2;
+    grid-row: 1 / span 3; 
+  }
+  #block-1785344682627 {
+    grid-column: 3;
+    grid-row: 1 / span 3; 
+  }
+  #block-1785344766828 {
+    grid-column: 4;
+    grid-row: 1; 
+  }
+  #block-1785344380443 {
+    grid-column: 4;
+    grid-row: 2; 
+  }
+  #block-1555988525205 {
+    grid-column: 4;
+    grid-row: 3; 
+  }
+}

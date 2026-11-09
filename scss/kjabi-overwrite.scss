@@ -15,7 +15,9 @@
   /*footer*/
   --footer-border-color: rgba(255, 255, 255, 0.16);
 }
-
+body .text-output.text-output {
+  line-height: 1.6;
+}
 a,
 button,
 input,
@@ -37,6 +39,9 @@ h3 {
 }
 .oc-card {
     @include oc-card;
+}
+.sr-only {
+    @include sr-only;
 }
 //butons
 .primary-button {
