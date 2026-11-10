@@ -1,22 +1,19 @@
 @use "../variables/colors" as *;
-@use "../mixins/list-reset" as *;
 @use "../mixins/type" as *;
 @use "../mixins/mq" as *;
 
 .footer-social {
-    // h2 {
-    //     @include body(false);
-    //     color: #fff;
-    //     font-weight:600;
-    //     margin-bottom: 1.5rem;
-    // }
     &__list {
-        @include list-reset;
         display: flex;
         align-items: center;
-        gap: 1.5rem;
+        gap: .5rem;
     }
     &__icon {
+        display:block;
         font-size: 1rem;
+        &:hover,
+        &:focus {
+            opacity: .6;
+        }
     }
 }
