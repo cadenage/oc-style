@@ -3,6 +3,7 @@
 @use "../mixins/mq" as *;
 
 .footer-social {
+    padding-top: 1.5rem;
     &__list {
         display: flex;
         align-items: center;
