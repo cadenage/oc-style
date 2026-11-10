@@ -35,7 +35,7 @@
   }
   .inner {
     gap: 1.5rem;
-    @include mq("tablet") {
+    @include mq($tablet) {
       gap: 4rem;
     }
   }
