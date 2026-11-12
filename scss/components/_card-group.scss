@@ -1,0 +1,30 @@
+@use "../variables/colors" as *;
+@use "../variables/fonts" as *;
+@use "../mixins/type" as *;
+@use "../mixins/mq" as *;
+@use "../mixins/oc-card" as *;
+
+
+.card {
+    @include oc-card($isGrey: false);
+    &-body {
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+    }
+    &-icon {
+        @include card-icon;
+    }
+    &-title {
+        @include title(false);
+    }
+    &-text {
+        @include body(false);
+    }
+
+}
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(max(12.5rem, 25% - 1.13rem), 100%), 1fr));
+    gap: 1.5rem
+}

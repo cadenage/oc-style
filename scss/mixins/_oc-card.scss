@@ -19,3 +19,18 @@
         background-color: #ffffff;
     }
 }
+@mixin card-icon(
+    $bg-color: $hero-bg,
+    $color: $heading-accent-color,
+) {
+    background-color: $bg-color;
+    color: $color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: .5rem;
+    font-size: 1.25rem;
+    padding: .5rem;
+}

@@ -1,0 +1,26 @@
+
+#section-1575400116835 {
+  position: relative;
+  overflow: hidden;
+
+  .section__overlay {
+    // removed z-index: 0 here — it was trapping the pseudo-elements below the image
+    &:after,
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0px;
+      right: 0px;
+      height: 18%;
+      z-index: 1; // lets the curve sit above the image block
+    }
+    &:before {
+      background: rgb(255, 255, 255);
+    }
+    &:after {
+      background: rgb(232, 248, 242);
+      clip-path: ellipse(52% 100% at 50% 0%);
+    }
+  }
+}

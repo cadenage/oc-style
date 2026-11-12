@@ -56,5 +56,9 @@ h3 {
 .secondary-button__small {
     @include button($primary: false, $is-responsive: false);
 }
-
-
+.highlight {
+   color: $heading-accent-color;
+}
+.chip {
+  @include chip;
+}

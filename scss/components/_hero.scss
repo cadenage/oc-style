@@ -1,26 +1,89 @@
+@use "../variables/colors" as *;
+@use "../variables/fonts" as *;
+@use "../mixins/type" as *;
+@use "../mixins/mq" as *;
+@use "../mixins/oc-card" as *;
+@use "../mixins/pill" as *;
 
-#section-1575400116835 {
-  position: relative;
-  overflow: hidden;
-
-  .section__overlay {
-    // removed z-index: 0 here — it was trapping the pseudo-elements below the image
-    &:after,
-    &:before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0px;
-      right: 0px;
-      height: 18%;
-      z-index: 1; // lets the curve sit above the image block
+.hero-content {
+  &__title {
+    margin-bottom: 1.5rem;
+    h1,
+    .eyebrow {
+      margin-bottom: 1.5rem;
     }
-    &:before {
-      background: rgb(255, 255, 255);
-    }
-    &:after {
-      background: rgb(232, 248, 242);
-      clip-path: ellipse(52% 100% at 50% 0%);
+    p {
+      @include body;
     }
   }
+  
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    @include mq($tablet) {
+      flex-wrap: nowrap;
+    }
+  }
+}
+.hero-price-card {
+  background-color: #fff;
+  margin: 0 -1rem;
+  padding: 1rem;
+  @include mq($tablet) {
+    @include oc-card(
+      $isGrey: false,
+      $padding: 1rem,
+      $padding-tablet: 1.5rem
+    );
+    margin: 0;
+    max-width: 25rem;
+    position:absolute;
+    bottom: 3.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+  }
+  > div[class^="hero-price-card__"] {
+    &:not(:last-of-type) {
+      margin-bottom: .75rem;
+    }
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__body {
+    @include small-text;
+  }
+  &__footer {
+    border-top: 1px solid $card-border-color;
+    padding-top: .75rem;
+  }
+  &__price {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    .price-label {
+      @include body;
+    }
+    .price-value {
+      @include body;
+      font-weight:600;
+      @include mq($tablet) {
+        font-size: 1.5rem;
+      }
+    }
+    .price-discount {
+      @include body(false);
+      text-decoration: line-through;
+    }
+  }
+}
+.hero-price__pill {
+  @include pill(
+    $bg-color: $hero-bg,
+    $text-color: $heading-accent-color,
+    $rounded: false
+  );
 }

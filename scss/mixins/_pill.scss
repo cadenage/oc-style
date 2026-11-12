@@ -1,0 +1,20 @@
+@use "../variables/colors" as *;
+@use "../mixins/type" as *;
+@mixin pill(
+    $bg-color,
+    $text-color,
+    $rounded: true,
+) {
+    @include small-text;
+    background-color: $bg-color;
+    color: $text-color;
+    font-weight: 500;
+    @if $rounded {
+        border-radius: 9999px;
+        padding: .25rem .75rem;
+    }
+    @else {
+        border-radius: 0;
+        padding: .5rem .75rem;
+    }
+}
