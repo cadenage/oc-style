@@ -1,0 +1,17 @@
+@use "mq" as *;
+
+@mixin container-size($jumbo: false) {
+    width: calc(100% - 2rem);
+    @include mq($tablet) {
+        width: calc(100% - 2rem);
+    }
+    @include mq($desktop) {
+        width: 93.75%;
+    }
+    @if $jumbo {
+        @include mq($desktop-lg) {
+            max-width: 1680px;
+            width: 87.5%;
+        }
+    }
+}

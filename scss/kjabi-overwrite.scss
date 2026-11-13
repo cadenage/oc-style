@@ -15,6 +15,13 @@
   /*footer*/
   --footer-border-color: rgba(255, 255, 255, 0.16);
 }
+
+.c-section>.inner {
+    max-width: 100% !important;
+    @media (min-width: 1280px) {
+        max-width: 75rem !important;
+    }
+}
 body .text-output.text-output {
   line-height: 1.6;
 }
