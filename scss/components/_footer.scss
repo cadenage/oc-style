@@ -5,7 +5,8 @@
 @use "../mixins/list-reset" as *;
 
 .footer-container {
-  a {
+  a,
+  .footer-contact {
     font-family: $sans-serif;
     color: #fff;
     text-decoration: none;
@@ -16,6 +17,11 @@
     &:focus {
       text-decoration: underline;
     }
+  }
+  .footer-contact {
+    background:none;
+    border:none;
+    padding:0;
   }
   h2 {
     @include body(false);

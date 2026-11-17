@@ -88,3 +88,17 @@ h3 {
     @include oc-card($isGrey: false, $padding: 2.5rem 2rem, $padding-tablet: 4.5rem 4rem);
     border-radius: 1.25rem;
 }
+// Contact modal: cap height, scroll the content inside
+#hl_main_popup-2kGb4LmPeE {
+  top: 7.5vh;
+  max-height: 85vh;
+
+  > .drop-zone-draggable {
+    max-height: calc(85vh - 2rem); // GHL adds 1rem padding top and bottom
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    .row-46nd0X8QsK {
+        padding: 0 !important;
+    }
+  }
+}
