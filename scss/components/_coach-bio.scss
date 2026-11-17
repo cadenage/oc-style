@@ -1,0 +1,51 @@
+@use "../variables/colors" as *;
+@use "../variables/fonts" as *;
+@use "../mixins/type" as *;
+@use "../mixins/mq" as *;
+@use "../mixins/media-copy" as *;
+
+.coach {
+    @include media-copy;
+    @include mq($tablet) {
+        margin: 0 auto;
+        max-width: 80rem;
+    }
+    &__image {
+        background-color: #fff;
+        border: 1px solid $card-border-color;
+        border-radius: .75rem;
+        margin: 0;
+        overflow: hidden;
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        @include mq($tablet) {
+            min-width: 25rem;
+        }
+    }
+    &__bio {
+        @include body;
+        h3 {
+            @include subheadline;
+            margin-bottom: 1.5rem;
+        }
+        p {
+            &:not(:last-of-type) {
+                margin-bottom: 1.5rem;
+            }
+        }
+    }
+    &__caption {
+        padding: 1.5rem;
+        text-align: center;
+        &-name {
+            @include card-title;
+            text-transform: uppercase;
+        }
+        &-title {
+            @include small-text;
+        }
+    }
+}

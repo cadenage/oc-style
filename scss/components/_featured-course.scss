@@ -1,0 +1,42 @@
+@use "../variables/colors" as *;
+@use "../variables/fonts" as *;
+@use "../mixins/type" as *;
+@use "../mixins/mq" as *;
+@use "../mixins/media-copy" as *;
+@use "../mixins/list-reset" as *;
+@use "../mixins/checkmark-list-item" as *;
+
+.featured-course {
+    @include media-copy;
+    @include mq($tablet) {
+        margin: 0 auto;
+        max-width: 80rem;
+    }
+    &__image {
+        
+        margin: 0;
+        img {
+            aspect-ratio: 16/9;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        @include mq($tablet) {
+            min-width: 3cqb;
+        }
+    }
+    &__copy {
+        @include body;
+        p {
+            &:not(:last-of-type) {
+                margin-bottom: 1.5rem;
+            }
+        }
+    }
+    &__features {
+        @include list-reset;
+        li {
+            @include checkmark-list-item;
+        }
+    }
+}

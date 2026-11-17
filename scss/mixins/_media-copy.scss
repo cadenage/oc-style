@@ -1,0 +1,16 @@
+@use "mq" as *;
+
+@mixin media-copy(
+    $align-items: flex-start,
+    $gap: 2rem,
+    $gap-tablet: 4rem
+) {
+    display: flex;
+    align-items: $align-items;
+    flex-wrap: wrap;
+    gap: $gap;
+    @include mq($tablet) {
+        flex-wrap: nowrap;
+        gap: $gap-tablet;
+    }
+}

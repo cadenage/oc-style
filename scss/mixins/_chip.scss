@@ -28,10 +28,11 @@
     }
     &__label {
         @include small-text;
-        color: #4b5563;
+        color: $muted-text-color;
     }
     &__value {
         @include body(false);
+        font-weight: 600;
     }
 }
 

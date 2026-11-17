@@ -1,0 +1,22 @@
+@use "../variables/colors" as *;
+@use "type" as *;
+
+@mixin checkmark-list-item {
+    @include body(false);
+    position: relative;
+    padding-left: 1.75rem;
+    &:not(:last-of-type) {
+        margin-bottom: 1rem;
+    }
+    &:before {
+        content: "\f058";
+        color: $card-border-green;
+        font-family: "Font Awesome 7 Sharp";
+        font-size: 1.25rem;
+        font-weight: 900;
+        left: 0;
+        position: absolute;
+        top: 0;
+    }
+        
+}
