@@ -88,6 +88,9 @@ h3 {
     @include oc-card($isGrey: false, $padding: 2.5rem 2rem, $padding-tablet: 4.5rem 4rem);
     border-radius: 1.25rem;
 }
+.center {
+    text-align: center;
+}
 // Contact modal: cap height, scroll the content inside
 #hl_main_popup-2kGb4LmPeE {
   top: 7.5vh;
