@@ -85,7 +85,7 @@
     }
   }
   &__annual-rate {
-    @include small-text;
+    @include body(false);
     font-weight: 500;
   }
 }
