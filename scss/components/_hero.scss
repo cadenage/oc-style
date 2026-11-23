@@ -21,16 +21,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    @include mq($tablet) {
-      flex-wrap: nowrap;
-    }
+    // @include mq($tablet) {
+    //   flex-wrap: nowrap;
+    // }
   }
 }
 .hero-price-card {
   background-color: #fff;
   margin: 0 -1rem;
   padding: 1rem;
-  @include mq($tablet) {
+  @include mq($desktop) {
     @include oc-card(
       $isGrey: false,
       $padding: 1rem,
@@ -51,6 +51,7 @@
   }
   &__header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
   }
   &__body {
@@ -73,11 +74,18 @@
       @include mq($tablet) {
         font-size: 1.5rem;
       }
+      .price-schedule {
+        @include body(false);
+        font-weight:400;
+      }
     }
     .price-discount {
       @include body(false);
       text-decoration: line-through;
     }
+  }
+  &__annual-rate {
+    @include small-text;
   }
 }
 .hero-price__pill {
