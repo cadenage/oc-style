@@ -86,6 +86,7 @@
   }
   &__annual-rate {
     @include small-text;
+    font-weight: 500;
   }
 }
 .hero-price__pill {
